@@ -16,10 +16,8 @@ const typescriptPlugin = require("@typescript-eslint/eslint-plugin");
 const ruleTester = new RuleTester({
   languageOptions: {
     parser: typescriptParser,
-    parserOptions: {
-      ecmaVersion: 2020,
-      sourceType: 'module',
-    },
+    ecmaVersion: 2020,
+    sourceType: 'module',
   },
   plugins: {
     '@typescript-eslint': typescriptPlugin,
@@ -33,7 +31,24 @@ ruleTester.run("no-return-type", rule, {
     "const showDropdown: () => void = () => {};",
     "node.addEventListener('click', () => {});",
     "node.addEventListener('click', function () {});",
-    "const foo = arr.map(i => i * i);"
+    "const foo = arr.map(i => i * i);",
+    `const remapList = (getIsSelectable?: GetIsSelectable) =>
+      (list: ApiDtoElement[], state?: ListState<ListElementReference>): ListElementReference[] =>
+        list.map((it) => {
+          const { uid, ...dto } = it;
+          return {
+            uid,
+            selected: state?.selectAll || false,
+            selectable: getIsSelectable ? getIsSelectable(it) : true,
+            ...dto,
+          };
+        });`,
+    {
+      code: `const rawStore = {
+        isSet: (key: ConfigProperty) => key in state.properties && state.properties[key] !== null
+      };`,
+      options: [{ allowExpressions: true }],
+    },
   ],
 
   invalid: [
