@@ -1,37 +1,82 @@
-# This rule enforces that functions have an explicit return type annotation unless the function starts with "use" keyword (`composable-plugin/no-return-type`)
-
-<!-- end auto-generated rule header -->
-
-Please describe the origin of the rule here.
+# no-return-type
+This ESLint rule enforces that functions have an explicit return type annotation unless the function name starts with the "use" keyword.
 
 ## Rule Details
 
-This rule aims to...
+The aim of this rule is to ensure that all functions have explicit return type annotations, promoting type safety and readability. However, functions whose names start with "use" are exempt from this requirement, aligning with common patterns in hooks or utility functions in frameworks like React.
 
-Examples of **incorrect** code for this rule:
+## Rule Options
 
-```js
+This rule inherits options from the `@typescript-eslint/explicit-function-return-type` rule. Here are the available options:
 
-// fill me in
+- **allowConciseArrowFunctionExpressionsStartingWithVoid**: boolean - Whether to allow arrow functions that start with the `void` keyword. Defaults to `false`.
+- **allowDirectConstAssertionInArrowFunctions**: boolean - Whether to ignore arrow functions immediately returning a `as const` value. Defaults to `true`.
+- **allowExpressions**: boolean - Whether to ignore function expressions (functions which are not part of a declaration). Defaults to `false`.
+- **allowFunctionsWithoutTypeParameters**: boolean - Whether to ignore functions that don't have generic type parameters. Defaults to `false`.
+- **allowHigherOrderFunctions**: boolean - Whether to ignore functions immediately returning another function expression. Defaults to `true`.
+- **allowIIFEs**: boolean - Whether to ignore immediately invoked function expressions (IIFEs). Defaults to `false`.
+- **allowTypedFunctionExpressions**: boolean - Whether to ignore type annotations on the variable of function expressions. Defaults to `true`.
+- **allowedNames**: string[] - An array of function/method names that will not have their arguments or return values checked. Defaults to `[]`.
 
+## Usage
+
+To use this rule, add it to your ESLint configuration:
+
+### Installation
+
+First, ensure you have the required dependencies:
+
+```bash
+npm install --save-dev @typescript-eslint/utils @typescript-eslint/eslint-plugin
+
+### Configuration
+
+Add the rule to your ESLint configuration file:
+
+```json
+{
+  "rules": {
+    "composable-plugin/no-return-type": ["error", {
+      "allowExpressions": false,
+      "allowTypedFunctionExpressions": false,
+      "allowHigherOrderFunctions": false,
+      "allowDirectConstAssertionInArrowFunctions": false
+    }]
+  }
+}
 ```
 
-Examples of **correct** code for this rule:
+## Example
 
-```js
+### Incorrect
 
-// fill me in
+```typescript
+function fetchData() {
+  return 'data';
+}
 
+const getData = () => {
+  return 'data';
+};
 ```
 
-### Options
+### Correct
 
-If there are any options, describe them here. Otherwise, delete this section.
+```typescript
+function fetchData(): string {
+  return 'data';
+}
 
-## When Not To Use It
+const getData = (): string => {
+  return 'data';
+};
 
-Give a short description of when it would be appropriate to turn off this rule.
+// Functions starting with "use" are exempt
+function useData() {
+  return 'data';
+}
 
-## Further Reading
-
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
+const useFetch = () => {
+  return 'data';
+};
+```
