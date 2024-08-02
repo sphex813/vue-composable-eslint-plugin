@@ -52,7 +52,13 @@ TODO: Run eslint-doc-generator to generate the configs list (or delete this sect
 ## Rules
 
 <!-- begin auto-generated rules list -->
-TODO: Run eslint-doc-generator to generate the rules list.
+
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
+
+| Name                                           | Description                                                                                                             | 🔧 |
+| :--------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- | :- |
+| [no-return-type](docs/rules/no-return-type.md) | This rule enforces that functions have an explicit return type annotation unless the function starts with 'use' keyword | 🔧 |
+
 <!-- end auto-generated rules list -->
 
 
